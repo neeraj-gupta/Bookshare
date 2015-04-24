@@ -2,16 +2,17 @@ package Model;
 
 public class Student {
 	
-	String studentId;
+	int studentId;
 	String firstName;
 	String lastName;
 	String email;
 	String phone;
 	String university;
-	public String getStudentId() {
+	
+	public int getStudentId() {
 		return studentId;
 	}
-	public void setStudentId(String studentId) {
+	public void setStudentId(int studentId) {
 		this.studentId = studentId;
 	}
 	public String getFirstName() {
