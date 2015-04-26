@@ -1,5 +1,5 @@
 'use strict';
-angular.module('webApp')
+angular.module('BookShare')
     .controller('LoginCtrl', ['$rootScope', '$scope', '$http', '$location', '$route', function($rootScope, $scope, $http, $location, $route) {
         console.log("LoginCtrl created.");
 
