@@ -1,4 +1,4 @@
-package application;
+package Application;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class BookshareCORSpolicy implements Filter {
+public class BookshareCORSPolicy implements Filter {
 
 	  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
 		

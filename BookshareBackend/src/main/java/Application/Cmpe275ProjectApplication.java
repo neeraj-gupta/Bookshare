@@ -1,4 +1,4 @@
-package application;
+package Application;
 
 //remember to set port to 9000 in application.properies
 import org.springframework.boot.SpringApplication;
@@ -14,5 +14,10 @@ public class Cmpe275ProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(Cmpe275ProjectApplication.class, args);
+    }
+    
+    @Bean
+    HeaderHttpSessionStrategy sessionStrategy() {
+      return new HeaderHttpSessionStrategy();
     }
 }
