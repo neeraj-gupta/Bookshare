@@ -3,6 +3,9 @@ package Controller;
 import java.security.InvalidParameterException;
 import java.util.*;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import config.SpringMongoConfig;
 import Model.Book;
 import Model.Student;
 
@@ -44,14 +48,14 @@ public class ApplicationController {
     		@RequestParam(value = "phone", required = false) String phone,
     		@RequestParam(value = "university", required = false) String university) {
     			
-    			// For Annotation
-    			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-    			
+    			//For Annotation
+    			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+    			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
     			checkValidStudent(firstname,lastname,email);
     			Student student = new Student(firstname,lastname,email,phone,university);
     		    
     			// Save in Database
-    			//mongoOperation.save(student);
+    			mo.save(student);
     			System.out.println("1. Student added : " + student);
     			return student;
     }
@@ -65,13 +69,13 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			checkValidBook(title, author, isbn, price);
 			Book book = new Book(student_id, title, author, isbn, desc, price);
 		    
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("1. Book added : " + book);
 			return book;
     }
@@ -85,13 +89,13 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			checkValidBook(title, author, isbn, price);
 			Book book = new Book(student_id, title, author, isbn, desc, price);
 		    
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("1. Book required Posted : " + book);
 			return book;
     }
@@ -101,8 +105,8 @@ public class ApplicationController {
     public @ResponseBody String listBooks() {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			
 			System.out.println("1. All for Listing Found : ");
 			return "Success";
@@ -117,13 +121,13 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			checkValidBook(title, author, isbn, price);
 			Book book = new Book(student_id, title, author, isbn, desc, price);
 		    
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("1. Search for a book : " + book);
 			return book;
     }
@@ -137,11 +141,11 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
-					    
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
+			Book book = new Book(student_id, title, author, isbn, desc, price);
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("1. Book required Posted : ");
 			return "Success";
     }
@@ -155,13 +159,13 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 			
 			checkValidBook(title, author, isbn, price);
 			Book book = new Book(student_id, title, author, isbn, desc, price);
-		    
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("1. Book Bid Successfull Posted : ");
 			return book;
     }
@@ -175,13 +179,13 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			checkValidBook(title, author, isbn, price);
 			Book book = new Book(student_id, title, author, isbn, desc, price);
 		    
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("1. Book Offer Accepted ");
 			return book;
     }
@@ -195,13 +199,13 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			checkValidBook(title, author, isbn, price);
 			Book book = new Book(student_id, title, author, isbn, desc, price);
 		    
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("Posted Feed Back: ");
 			return book;
     }
@@ -215,13 +219,13 @@ public class ApplicationController {
     		@RequestParam(value = "price", required = false) String price) {
     			
 			// For Annotation
-			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			checkValidBook(title, author, isbn, price);
 			Book book = new Book(student_id, title, author, isbn, desc, price);
 		    
 			// Save in Database
-			//mongoOperation.save(book);
+			mo.save(book);
 			System.out.println("Give Rating : ");
 			return "Success";
     }

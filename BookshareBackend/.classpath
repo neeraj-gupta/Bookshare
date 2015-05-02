@@ -5,5 +5,8 @@
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer"/>
+	<classpathentry kind="lib" path="/Users/anuragbhardwaj/Downloads/org.springframework.data.core_1.3.1.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/anuragbhardwaj/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/2.12.5/8e53a39f2a5b2755ecc394d48d18026460f5da58/mongo-java-driver-2.12.5.jar" sourcepath="/Users/anuragbhardwaj/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/2.12.5/17fc05a3487ca3e4ce05531bf52a7146723e1e40/mongo-java-driver-2.12.5-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/anuragbhardwaj/Downloads/spring-data-mongodb-1.6.2.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
