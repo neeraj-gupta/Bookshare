@@ -1,6 +1,7 @@
 package Model;
 
 public class Student {
+	int count = 0;
 	
 	int studentId;
 	String firstName;
@@ -8,6 +9,19 @@ public class Student {
 	String email;
 	String phone;
 	String university;
+	
+	Student(){
+	}
+	
+	public Student(String firstname,String lastname,String email, String phone, String university){
+		super();
+		studentId = count++;
+		this.firstName = firstname;
+		this.lastName = lastname;
+		this.email = email;
+		this.phone = phone;
+		this.university = university;
+	}
 	
 	public int getStudentId() {
 		return studentId;
