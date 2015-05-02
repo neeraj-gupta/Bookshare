@@ -8,18 +8,17 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
         classpath("io.spring.gradle:dependency-management-plugin:0.5.0.RELEASE")
-        classpath("mysql:mysql-connector-java:5.1.16")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'idea' 
-apply plugin: 'spring-boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+apply plugin: 'spring-boot' 
+apply plugin: 'io.spring.dependency-management' 
 
 jar {
-    baseName = 'Cmpe275'
+    baseName = 'booksharebackendArtifact'
     version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.7
@@ -31,14 +30,10 @@ repositories {
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-aop")
-    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("org.springframework.boot:spring-boot-starter-jdbc")
-    compile("org.springframework:spring-jdbc")
     compile("org.springframework.boot:spring-boot-starter-security")
+     compile('org.springframework.session:spring-session:1.0.0.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-redis')
     compile("org.springframework.boot:spring-boot-starter-web")
-    runtime("mysql:mysql-connector-java")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
 }
 
