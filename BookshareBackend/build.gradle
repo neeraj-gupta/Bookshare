@@ -33,8 +33,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-security")
     compile('org.springframework.session:spring-session:1.0.0.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-redis')
+    compile("com.fasterxml.jackson.core:jackson-databind")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("com.jayway.jsonpath:json-path:0.9.1")
+    compile("org.json:json:20090211")
     compile ("org.springframework.data:spring-data-mongodb:1.6.0.RELEASE")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
 }
