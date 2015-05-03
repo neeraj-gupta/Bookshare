@@ -1,4 +1,4 @@
-package config;
+package cmpe275Project.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class SpringMongoConfig {
 
 	public @Bean
 	MongoDbFactory mongoDbFactory() throws Exception {
-		return new SimpleMongoDbFactory(new MongoClient("ds061751.mongolab.com:61751"), "cmpe275", new UserCredentials("anurag","anurag"));
+		return new SimpleMongoDbFactory(new MongoClient("ds031912.mongolab.com:31912"), "cmpe", new UserCredentials("anurag","anurag"));
 	}
 
 	public @Bean

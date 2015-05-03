@@ -1,11 +1,11 @@
-package DAO;
+package cmpe275Project.DAO;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 
-import config.SpringMongoConfig;
-import Model.Student;
-import MyExceptions.Exceptions;
+import cmpe275Project.Model.Student;
+import cmpe275Project.MyExceptions.Exceptions;
+import cmpe275Project.config.SpringMongoConfig;
 
 public class StudentDaoImpl implements StudentDao{
 	private static MongoOperations mongoOps;

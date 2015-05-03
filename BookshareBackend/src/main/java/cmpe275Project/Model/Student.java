@@ -1,7 +1,7 @@
-package Model;
+package cmpe275Project.Model;
 
 public class Student {
-	private static Integer count;
+	private static Integer count = 0;
 	private Integer studentId;
 	private String firstName;
 	private String lastName;
@@ -22,6 +22,9 @@ public class Student {
 		this.university = university;
 	}
 	
+	public static Integer getNewId(){
+		return ++count;
+	}
 	public int getStudentId() {
 		return studentId;
 	}

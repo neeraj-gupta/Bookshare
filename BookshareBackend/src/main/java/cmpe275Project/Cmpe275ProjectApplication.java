@@ -1,4 +1,4 @@
-package Application;
+package cmpe275Project;
 
 //remember to set port to 9000 in application.properies
 import org.springframework.boot.SpringApplication;

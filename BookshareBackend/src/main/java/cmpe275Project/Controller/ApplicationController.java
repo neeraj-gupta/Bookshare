@@ -1,4 +1,4 @@
-package Controller;
+package cmpe275Project.Controller;
 
 import java.security.InvalidParameterException;
 import java.util.*;
@@ -7,20 +7,23 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import config.SpringMongoConfig;
-import Model.Book;
-import Model.Student;
+import cmpe275Project.DAO.*;
+import cmpe275Project.Model.Book;
+import cmpe275Project.Model.Student;
+import cmpe275Project.config.SpringMongoConfig;
 
 @RestController
 @RequestMapping("/")
 public class ApplicationController {
 	Integer student_id = -1;
+	private StudentDao studentdao = new StudentDaoImpl();
 	
 	@RequestMapping( method = RequestMethod.GET, value = "/")
     public @ResponseBody String getHome() {    	
@@ -42,20 +45,19 @@ public class ApplicationController {
     
     // Register Student
     @RequestMapping( method = RequestMethod.POST, value = "/student")
-    public @ResponseBody Student createStudent(@RequestParam(value = "firstname", required = true) String firstname,
+    /*public @ResponseBody Student createStudent(@RequestParam(value = "firstname", required = true) String firstname,
     		@RequestParam(value = "lastname", required = true) String lastname,
     		@RequestParam(value = "email", required = true) String email,
     		@RequestParam(value = "phone", required = false) String phone,
     		@RequestParam(value = "university", required = false) String university) {
-    			
-			//For Annotation
-			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
-			checkValidStudent(firstname,lastname,email);
-			Student student = new Student(firstname,lastname,email,phone,university);
+    */
+	public @ResponseBody Student createStudent(@RequestBody Student student) {	
+    		
+			checkValidStudent(student);
+			//Student student = new Student(firstname,lastname,email,phone,university);
 		    
-			// Save in Database
-			mo.save(student);
+			// Call StudentDao Class method to create Student.
+			studentdao.createStudent(student);
 			System.out.println("1. Student added : " + student);
 			return student;
     }
@@ -105,8 +107,8 @@ public class ApplicationController {
     public @ResponseBody String listBooks() {
     			
 			// For Annotation
-			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
+			//ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			//MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
 			
 			System.out.println("1. All for Listing Found : ");
 			return "Success";
@@ -237,11 +239,19 @@ public class ApplicationController {
     		throw new InvalidParameterException();
     	}
 	}
-
+	
+	private void checkValidStudent(Student student) {
+		// TODO Auto-generated method stub
+		if(student.getFirstName() == null || student.getLastName() == null || student.getEmail() == null || student.getUniversity() == null){
+    		throw new InvalidParameterException();
+    	}
+	}
+	
+	/*
 	private void checkValidStudent(String firstname, String lastname, String email) {
 		// TODO Auto-generated method stub
 		if(firstname == null || lastname == null || email == null){
     		throw new InvalidParameterException();
     	}
-	}    
+	}*/   
 }

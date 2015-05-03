@@ -1,13 +1,13 @@
-package DAO;
+package cmpe275Project.DAO;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import config.SpringMongoConfig;
-import Model.Book;
-import MyExceptions.Exceptions;
+import cmpe275Project.Model.Book;
+import cmpe275Project.MyExceptions.Exceptions;
+import cmpe275Project.config.SpringMongoConfig;
 
 public class BookDaoImpl implements BookDao {
 

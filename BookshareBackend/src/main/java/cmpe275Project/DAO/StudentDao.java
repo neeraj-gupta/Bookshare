@@ -1,6 +1,6 @@
-package DAO;
+package cmpe275Project.DAO;
 
-import Model.Student;
+import cmpe275Project.Model.Student;
 
 public interface StudentDao {
 	public void createStudent(Student student);

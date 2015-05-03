@@ -1,4 +1,4 @@
-package Application;
+package cmpe275Project;
 
 import java.io.IOException;
 

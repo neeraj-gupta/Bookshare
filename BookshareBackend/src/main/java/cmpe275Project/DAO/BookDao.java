@@ -1,6 +1,6 @@
-package DAO;
+package cmpe275Project.DAO;
 
-import Model.Book;
+import cmpe275Project.Model.Book;
 
 public interface BookDao {
 	public void createBook(Book book);

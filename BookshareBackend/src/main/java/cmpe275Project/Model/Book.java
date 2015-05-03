@@ -1,7 +1,7 @@
-package Model;
+package cmpe275Project.Model;
 
 public class Book {
-	private static int counter;
+	private static Integer counter = 0;
 	
 	private Integer bookId;
 	private Integer ownerId;
@@ -20,6 +20,10 @@ public class Book {
 		this.bookDesc = Desc;
 		this.bookISBN = ISBN;
 		this.bookCondition = condition;
+	}
+	
+	public static Integer getNewId(){
+		return ++counter;
 	}
 
 	public Integer getBookId() {

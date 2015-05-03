@@ -1,4 +1,4 @@
-package Model;
+package cmpe275Project.Model;
 
 public class BookBids {
 	private static int counter;
