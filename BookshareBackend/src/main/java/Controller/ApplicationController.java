@@ -48,16 +48,16 @@ public class ApplicationController {
     		@RequestParam(value = "phone", required = false) String phone,
     		@RequestParam(value = "university", required = false) String university) {
     			
-    			//For Annotation
-    			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-    			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
-    			checkValidStudent(firstname,lastname,email);
-    			Student student = new Student(firstname,lastname,email,phone,university);
-    		    
-    			// Save in Database
-    			mo.save(student);
-    			System.out.println("1. Student added : " + student);
-    			return student;
+			//For Annotation
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			MongoOperations mo = (MongoOperations) ctx.getBean("mongoTemplate");
+			checkValidStudent(firstname,lastname,email);
+			Student student = new Student(firstname,lastname,email,phone,university);
+		    
+			// Save in Database
+			mo.save(student);
+			System.out.println("1. Student added : " + student);
+			return student;
     }
     
     // Create Book

@@ -1,5 +1,5 @@
 package DAO;
 
-public class FeedbackDao {
+public interface FeedbackDao {
 
 }
