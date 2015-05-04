@@ -1,7 +1,9 @@
 package cmpe275Project.Model;
 
-import java.util.Date;
+import org.springframework.data.mongodb.core.mapping.Document;
+import myvote.controllers.DateParser;
 
+@Document(collection = "transactions")
 public class Transaction {
 	private static int counter;
 	int transactionId;
@@ -9,18 +11,18 @@ public class Transaction {
 	int buyer;
 	int seller;
 	String transactionType;
-	Date transactionDate;
+	String transactionDate;
 	double sellingPrice;
 	
-	Transaction(int bookid, int buyer, int seller, String type, Date date, double price){
+	Transaction(int bookId, int buyer, int seller, String transactionType, double sellingPrice){
 		super();
 		this.transactionId = counter++;
-		this.bookId = bookid;
+		this.bookId = bookId;
 		this.buyer = buyer;
 		this.seller = seller;
-		this.transactionType = type;
-		this.transactionDate = date;
-		this.sellingPrice = price;
+		this.transactionType = transactionType;
+		this.setTransactionDate();
+		this.sellingPrice = sellingPrice;
 	}
 	
 	public int getTransactionId() {
@@ -63,12 +65,13 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 	
-	public Date getTransactionDate() {
+	public String getTransactionDate() {
 		return transactionDate;
 	}
 	
-	public void setTransactionDate(Date date) {
-		this.transactionDate = date;
+	public void setTransactionDate() {
+		DateParser dparser = new DateParser();
+		this.transactionDate = dparser.getDate();
 	}
 	
 	public double getSellingPrice() {

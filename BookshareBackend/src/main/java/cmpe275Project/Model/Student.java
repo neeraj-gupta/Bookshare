@@ -1,7 +1,7 @@
 package cmpe275Project.Model;
 
 public class Student {
-	private static Integer count = 0;
+	private static Integer count = 1;
 	private Integer studentId;
 	private String firstName;
 	private String lastName;
@@ -12,11 +12,11 @@ public class Student {
 	Student(){
 	}
 	
-	public Student(String firstname,String lastname,String email, String phone, String university){
+	public Student(String firstName,String lastName,String email, String phone, String university){
 		super();
 		this.studentId = count++;
-		this.firstName = firstname;
-		this.lastName = lastname;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
 		this.university = university;

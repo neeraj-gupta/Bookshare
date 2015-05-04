@@ -2,7 +2,10 @@ package cmpe275Project.DAO;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
+import cmpe275Project.Model.Book;
 import cmpe275Project.Model.Student;
 import cmpe275Project.MyExceptions.Exceptions;
 import cmpe275Project.config.SpringMongoConfig;
@@ -42,11 +45,25 @@ public class StudentDaoImpl implements StudentDao{
 	// Helper Validation Functions
 	private boolean isExistingStudent(int studentId) {
 		// TODO Auto-generated method stub
+		Query query = new Query(Criteria.where("id").is(studentId));
+		Student existingStudent = mongoOps.findOne(query, Student.class, Student_COLLECTION);
+
+		if(existingStudent != null){
+			return true;
+		}
+		
 		return false;
 	}
 
 	private boolean isDuplicateEmail(String email) {
 		// TODO Auto-generated method stub
+		Query query = new Query(Criteria.where("email").is(email));
+		Student student = mongoOps.findOne(query, Student.class, Student_COLLECTION);
+		
+		if(student != null){
+			return true;
+		}
+		
 		return false;
 	}
 }

@@ -1,13 +1,13 @@
 package cmpe275Project.Model;
 
-import java.util.Date;
+import myvote.controllers.DateParser;
 
 public class Login {
 	
 	private String studentId;
 	private String email;
 	private String password;
-	private Date lastLogin;
+	private String lastLogin;
 	
 	public String getStudentId() {
 		return studentId;
@@ -33,11 +33,12 @@ public class Login {
 		this.password = password;
 	}
 	
-	public Date getLastLogin() {
+	public String getLastLogin() {
 		return lastLogin;
 	}
 	
-	public void setLastLogin(Date lastLogin) {
-		this.lastLogin = lastLogin;
+	public void setLastLogin() {
+		DateParser dparser = new DateParser();
+		this.lastLogin = dparser.getDate();
 	}
 }

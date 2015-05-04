@@ -1,25 +1,28 @@
 package cmpe275Project.Model;
 
-import java.sql.Date;
+import myvote.controllers.DateParser;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "feedbacks")
 public class Feedback {
-	
 	private static Integer counter;
+	@Id
 	private Integer feedbackId;
 	private Integer providerId;
 	private Integer sellerId;
 	private Integer rating;
 	private String feedbackDesc;
-	private Date created_at;
+	private String created_at;
 	
-	public Feedback(Integer providerid, Integer sellerid, Integer rating, String feedbackdesc, Date created_at){
+	public Feedback(Integer providerId, Integer sellerId, Integer rating, String feedbackDesc){
 		super();
-		setFeedbackId(counter++);
-		this.setProviderId(providerid);
-		this.sellerId = sellerid;
+		feedbackId = counter++;
+		this.providerId = providerId;
+		this.sellerId = sellerId;
 		this.rating = rating;
-		this.feedbackDesc = feedbackdesc;
-		this.created_at = created_at;
+		this.feedbackDesc = feedbackDesc;
+		this.setCreated_at();
 	}
 
 	public Integer getFeedbackId() {
@@ -62,11 +65,12 @@ public class Feedback {
 		this.feedbackDesc = feedbackDesc;
 	}
 
-	public Date getCreated_at() {
+	public String getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreated_at() {
+		DateParser dparser = new DateParser();
+		this.created_at = dparser.getDate();
 	}
 }

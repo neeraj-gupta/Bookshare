@@ -1,8 +1,12 @@
 package cmpe275Project.Model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "bids")
 public class BookBids {
 	private static int counter;
-	
+	@Id
 	private Integer bidId;
 	private Integer bidderId;
 	private Integer bookId;
@@ -12,12 +16,12 @@ public class BookBids {
 	
 	public BookBids(Integer bidderId, Integer bookId, String bookTitle, float bidPrice, float basePrice){
 		super();
-		setBidId(counter++);
-		this.setBidderId(bidderId);
+		bidId = counter++;
+		this.bidderId = bidderId;
 		this.bookId = bookId;
 		this.bookTitle = bookTitle;
-		this.setBidPrice(bidPrice);
-		this.setBasePrice(basePrice);
+		this.bidPrice = bidPrice;
+		this.basePrice = basePrice;
 	}
 
 	public Integer getBookId() {

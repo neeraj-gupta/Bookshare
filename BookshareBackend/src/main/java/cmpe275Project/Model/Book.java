@@ -1,8 +1,12 @@
 package cmpe275Project.Model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "books")
 public class Book {
-	private static Integer counter = 0;
-	
+	private static Integer counter = 1;
+	@Id
 	private Integer bookId;
 	private Integer ownerId;
 	private String bookTitle;
@@ -11,21 +15,17 @@ public class Book {
 	private String bookISBN;
 	private String bookCondition;
 	
-	public Book(Integer ownerId, String Title, String Author, String Desc, String ISBN, String condition){
+	public Book(Integer ownerId, String bookTitle, String bookAuthor, String bookDesc, String bookISBN, String bookCondition){
 		super();
 		bookId = counter++;
 		this.ownerId = ownerId;
-		this.bookTitle = Title;
-		this.bookAuthor = Author;
-		this.bookDesc = Desc;
-		this.bookISBN = ISBN;
-		this.bookCondition = condition;
+		this.bookTitle = bookTitle;
+		this.bookAuthor = bookAuthor;
+		this.bookDesc = bookDesc;
+		this.bookISBN = bookISBN;
+		this.bookCondition = bookCondition;
 	}
 	
-	public static Integer getNewId(){
-		return ++counter;
-	}
-
 	public Integer getBookId() {
 		return bookId;
 	}
@@ -66,19 +66,19 @@ public class Book {
 		this.bookDesc = bookDesc;
 	}
 
-	public String getBookCondition() {
-		return bookCondition;
-	}
-
-	public void setBookCondition(String bookCondition) {
-		this.bookCondition = bookCondition;
-	}
-
 	public String getBookISBN() {
 		return bookISBN;
 	}
 
 	public void setBookISBN(String bookISBN) {
 		this.bookISBN = bookISBN;
+	}
+
+	public String getBookCondition() {
+		return bookCondition;
+	}
+
+	public void setBookCondition(String bookCondition) {
+		this.bookCondition = bookCondition;
 	}
 }

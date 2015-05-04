@@ -24,20 +24,45 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public void createBook(Book book) {
 		// TODO Auto-generated method stub
+		while(isExistingBook(book.getBookId())){
+			book.setBookId(book.getBookId() + 1);
+		}
 		
+		System.out.println("mongoOps " + mongoOps);
+		mongoOps.insert(book, Book_COLLECTION);
+	}
+	
+	@Override
+	public Book readBook(Integer b_id) {
+		// TODO Auto-generated method stub
+		Query query = new Query(Criteria.where("_id").is(b_id));
+		Book book = mongoOps.findOne(query, Book.class, Book_COLLECTION);
+		return book;
+	}
+
+	private boolean isExistingBook(Integer bookId) {
+		// TODO Auto-generated method stub
+		Query query = new Query(Criteria.where("id").is(bookId));
+		Book existingId = mongoOps.findOne(query, Book.class, Book_COLLECTION);
+
+		if(existingId != null){
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
 	public Book deleteBook(Integer b_id) {
 		// TODO Auto-generated method stub
-		Query query = new Query(Criteria.where("id").is(b_id));
+		Query query = new Query(Criteria.where("_id").is(b_id));
 		Book book = mongoOps.findOne(query, Book.class, Book_COLLECTION);
 		
 		if(book == null){
 			throw new Exceptions.BookNotFoundException();
 		}
 		
-		mongoOps.remove(query, Book.class, Book_COLLECTION);
+		mongoOps.remove(query, Book.class);
 		
 		return book;
 	}
