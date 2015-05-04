@@ -1,6 +1,6 @@
 package cmpe275Project.Model;
 
-import myvote.controllers.DateParser;
+import cmpe275Project.Controller.DateParser;
 
 public class Login {
 	

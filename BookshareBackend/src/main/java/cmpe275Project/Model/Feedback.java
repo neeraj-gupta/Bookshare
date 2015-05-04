@@ -1,8 +1,9 @@
 package cmpe275Project.Model;
 
-import myvote.controllers.DateParser;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import cmpe275Project.Controller.DateParser;
 
 @Document(collection = "feedbacks")
 public class Feedback {

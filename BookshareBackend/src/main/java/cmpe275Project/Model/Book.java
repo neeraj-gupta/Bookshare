@@ -15,7 +15,7 @@ public class Book {
 	private String bookISBN;
 	private String bookCondition;
 	
-	public Book(Integer ownerId, String bookTitle, String bookAuthor, String bookDesc, String bookISBN, String bookCondition){
+	public Book(Integer ownerId, String bookTitle, String bookAuthor, String bookISBN, String bookDesc, String bookCondition){
 		super();
 		bookId = counter++;
 		this.ownerId = ownerId;

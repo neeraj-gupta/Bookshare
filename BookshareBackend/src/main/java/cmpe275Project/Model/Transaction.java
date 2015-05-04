@@ -1,7 +1,8 @@
 package cmpe275Project.Model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import myvote.controllers.DateParser;
+import cmpe275Project.Controller.DateParser;
+
 
 @Document(collection = "transactions")
 public class Transaction {

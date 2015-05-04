@@ -66,10 +66,7 @@ public class ApplicationController {
     		@RequestParam(value = "author", required = true) String author,
     		@RequestParam(value = "isbn", required = true) String isbn,
     		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "condition", required = false) String condition,
-    		@RequestParam(value = "price", required = false)  float price,
-    		@RequestParam(value = "rentPrice", required = false)  float rent,
-    		@RequestParam(value = "type", required = false) String type) {
+    		@RequestParam(value = "condition", required = false) String condition) {
     			
 			Book book = new Book(student_id, title, author, isbn, desc, condition);
 			checkValidBook(book);

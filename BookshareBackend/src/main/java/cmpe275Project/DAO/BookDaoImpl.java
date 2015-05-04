@@ -24,7 +24,7 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public void createBook(Book book) {
 		// TODO Auto-generated method stub
-		while(isExistingBook(book.getBookId())){
+		if(!isExistingBook(book.getBookId())){
 			book.setBookId(book.getBookId() + 1);
 		}
 		
