@@ -25,12 +25,12 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public void createStudent(Student student) {
 		// TODO Auto-generated method stub
-		if(isExistingStudent(student.getStudentId())){
-		    student.setStudentId(student.getStudentId() + 1);
+		if(!isExistingStudent(student.getStudentId())){
+			student.setStudentId(student.getStudentId() + 1);
 		}
 		
 		if(isDuplicateEmail(student.getEmail())){
-		    throw new Exceptions.DuplicateStudentEmailException();
+			throw new Exceptions.DuplicateStudentEmailException();
 		}
 		
 		System.out.println("mongoOps " + mongoOps);
@@ -57,6 +57,7 @@ public class StudentDaoImpl implements StudentDao{
 		Student res = mongoOps.findAndModify(query, update, Student.class);
 		return res;
 	}
+
 	
 	// Helper Validation Functions
 	private boolean isExistingStudent(int studentId) {
