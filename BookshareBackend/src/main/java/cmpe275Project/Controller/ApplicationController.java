@@ -24,6 +24,7 @@ public class ApplicationController {
 	Integer student_id = 1;
 	private StudentDao studentdao = new StudentDaoImpl();
 	private BookDao bookdao = new BookDaoImpl();
+	private RentOrBuyDao rentOrBuyDao = new RentOrBuyDaoImpl(); 
 	
 	@RequestMapping( method = RequestMethod.GET, value = "/")
     public @ResponseBody String getHome() {    	
@@ -123,19 +124,59 @@ public class ApplicationController {
 		return book;
     }
         
-    // Buy a Book.
-    @RequestMapping( method = RequestMethod.GET, value = "/buybook/{id}")
-    public @ResponseBody String buyBook(@PathVariable(value = "id")Integer id, @RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    			
-			Book book = new Book(student_id, title, author, isbn, desc, price);
-			
-			System.out.println("1. Book required Posted : ");
-			return "Success";
-    }
+ // Buy a Book. --- >>> Merge Transaction
+ 	@RequestMapping(method = RequestMethod.POST, value = "/buybook")
+ 	public @ResponseBody String buyBook(
+ 			@PathVariable(value = "id") int id)
+ 			 {
+
+ 		// Validate book
+ 		// checkValidBook(title, author, isbn, sellingPrice);
+
+ 		if (!(rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("sold") || rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("rented"))) {
+
+ 			// Change status in DB
+ 			if ((rentOrBuyDao.changeBookStatus(id, "Sold").equalsIgnoreCase("success"))) 
+ 			{
+ 				System.out.println("Book with id " + id + " bought");
+ 			} 
+ 			else 
+ 			{
+ 				System.out.println("Book buying failed, could not update");
+ 			}
+ 		} else {
+ 			System.out.println("Book you are trying to buy has status "
+ 					+ rentOrBuyDao.getBookStatus(id));
+ 		}
+
+ 		return "Success";
+ 	}
+
+ 	// Rent a Book.  --- >>> Merge Transaction
+ 	@RequestMapping(method = RequestMethod.POST, value = "/rentbook")
+ 	public @ResponseBody String rentBook(@PathVariable(value = "id") int id,
+ 			@RequestParam(value = "duration", required = true) String duration) {
+ 		
+ 		//Method to validate book
+ 		if (!(rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("Sold") || rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("Rented"))) {
+
+ 			// Change status in DB
+ 			if ((rentOrBuyDao.changeBookStatus(id, "Rented").equalsIgnoreCase("success"))) 
+ 			{
+ 				System.out.println("Book with id " + id + " rented for " + duration + " days");
+ 			} 
+ 			else {
+ 				System.out.println("Book buying failed, could not update");
+ 			}
+ 		} else {
+ 			System.out.println("Book you are trying to buy has status "
+ 					+ rentOrBuyDao.getBookStatus(id));
+ 		}
+
+ 		
+ 		return "Success";
+ 	}
+
     
     // Bid for a Book.
     @RequestMapping( method = RequestMethod.GET, value = "/bidbook/{id}")
@@ -202,4 +243,6 @@ public class ApplicationController {
     		throw new InvalidParameterException();
     	}
 	}
+	
+	
 }
