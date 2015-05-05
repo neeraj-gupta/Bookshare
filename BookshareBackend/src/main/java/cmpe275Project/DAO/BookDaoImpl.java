@@ -1,5 +1,6 @@
 package cmpe275Project.DAO;
 
+import java.util.List;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -68,9 +69,11 @@ public class BookDaoImpl implements BookDao {
 	}
 
 	@Override
-	public Book searchBook() {
+	public List<Book> searchBook(String searchkey) {
 		// TODO Auto-generated method stub
-		return null;
+		Query query = new Query(Criteria.where("_id").is(searchkey));
+		List<Book> book = mongoOps.find(query, Book.class, Book_COLLECTION);
+		return book;
 	}
 
 	@Override
