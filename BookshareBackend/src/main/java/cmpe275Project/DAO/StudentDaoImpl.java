@@ -4,6 +4,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import cmpe275Project.Model.Book;
 import cmpe275Project.Model.Student;
@@ -24,7 +25,7 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public void createStudent(Student student) {
 		// TODO Auto-generated method stub
-		while(isExistingStudent(student.getStudentId())){
+		if(!isExistingStudent(student.getStudentId())){
 			student.setStudentId(student.getStudentId() + 1);
 		}
 		
@@ -39,8 +40,24 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public Student updateStudent(Student student, Integer s_id) {
 		// TODO Auto-generated method stub
-		return null;
+		Query query = new Query(Criteria.where("_id").is(s_id));
+		Update update = new Update();
+		
+		if(student.getFirstName() != null)
+    		    update.set("firstname", student.getFirstName());
+		if(student.getLastName() != null)
+    		    update.set("lastname", student.getLastName());
+    		if(student.getEmail() != null)
+    		    update.set("email", student.getEmail());
+    		if(student.getPhone() != null)
+    		    update.set("phone", student.getPhone());
+    		if(student.getUniversity() != null)
+    		    update.set("university", student.getUniversity());
+    	
+		Student res = mongoOps.findAndModify(query, update, Student.class);
+		return res;
 	}
+
 	
 	// Helper Validation Functions
 	private boolean isExistingStudent(int studentId) {

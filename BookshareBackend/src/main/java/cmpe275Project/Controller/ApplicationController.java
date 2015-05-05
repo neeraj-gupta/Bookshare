@@ -7,14 +7,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mongodb.DBCollection;
+
 import cmpe275Project.DAO.*;
 import cmpe275Project.Model.Book;
+import cmpe275Project.Model.PostBook;
 import cmpe275Project.Model.Student;
 import cmpe275Project.config.SpringMongoConfig;
 
@@ -43,9 +47,23 @@ public class ApplicationController {
 	    return model;
     }
     
+    
     // Register Student
     @RequestMapping( method = RequestMethod.POST, value = "/student")
-    public @ResponseBody Student createStudent(@RequestParam(value = "firstname", required = true) String firstname,
+    public @ResponseBody Student createStudent(@RequestBody Student student) {
+
+    		Student studentLocal = new Student(student.getFirstName(),student.getLastName(),student.getEmail(),student.getPhone(),student.getUniversity());
+			checkValidStudent(studentLocal);
+		    
+			// Call StudentDao Class method to create Student.
+			studentdao.createStudent(studentLocal);
+			System.out.println("1. Student added : " + studentLocal);
+			return studentLocal;
+    }
+    
+ // Update Student Info
+    @RequestMapping( method = RequestMethod.POST, value = "/editStudent")
+    public @ResponseBody Student updateStudent(@RequestParam(value = "firstname", required = true) String firstname,
     		@RequestParam(value = "lastname", required = true) String lastname,
     		@RequestParam(value = "email", required = true) String email,
     		@RequestParam(value = "phone", required = false) String phone,
@@ -55,73 +73,11 @@ public class ApplicationController {
 			checkValidStudent(student);
 		    
 			// Call StudentDao Class method to create Student.
-			studentdao.createStudent(student);
-			System.out.println("1. Student added : " + student);
+			studentdao.updateStudent(student, student_id);
+			System.out.println("1. Student Data Updated : " + student);
 			return student;
     }
     
-    // Create Book
-    @RequestMapping( method = RequestMethod.POST, value = "/createbook")
-    public @ResponseBody Book createBook(@RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "condition", required = false) String condition) {
-    			
-			Book book = new Book(student_id, title, author, isbn, desc, condition);
-			checkValidBook(book);
-			
-			// Call StudentDao Class method to create Student.
-			bookdao.createBook(book);
-			System.out.println("1. Book added : " + book);
-			return book;
-    }
-    
-	// Post for a required Book.
-    @RequestMapping( method = RequestMethod.POST, value = "/postbook")
-    public @ResponseBody Book postForBook(@RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    					
-			Book book = new Book(student_id, title, author, isbn, desc, price);
-			checkValidBook(book);
-			
-			System.out.println("1. Book required Posted : " + book);
-			return book;
-    }
-
-    // List of all available Book.
-    @RequestMapping( method = RequestMethod.GET, value = "/listbook")
-    public @ResponseBody String listBooks() {
-    		
-			System.out.println("1. All for Listing Found : ");
-			return "Success";
-    }
-    
-    // Search for a Book.
-    @RequestMapping( method = RequestMethod.GET, value = "/searchbook")
-    public @ResponseBody void searchBook(@PathVariable(value = "id")String id, @RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    			
-			System.out.println("1. Search for a book : ");
-    }
-    
-    // Delete a Book.
-    @RequestMapping( method = RequestMethod.DELETE, value = "/deletebook/{id}")
-    public @ResponseBody Book deleteBook(@PathVariable(value = "id")String id) {
-    	int idInt = Integer.parseInt(id);
-    	Book book = bookdao.readBook(idInt);
-    	if(book.getBookId() != null){
-    		bookdao.deleteBook(idInt);
-    	}
-		System.out.println("1. Search for a book : " + book);
-		return book;
-    }
         
     // Buy a Book.
     @RequestMapping( method = RequestMethod.GET, value = "/buybook/{id}")
@@ -192,6 +148,13 @@ public class ApplicationController {
     private void checkValidBook(Book book) {
 		// TODO Auto-generated method stub
     	if(book.getBookTitle() == null || book.getBookAuthor() == null || book.getBookISBN() == null){
+    		throw new InvalidParameterException();
+    	}
+    }
+    
+    private void checkValidPostBook(PostBook postBook) {
+		// TODO Auto-generated method stub
+    	if(postBook.getBookTitle() == null || postBook.getBookAuthor() == null || postBook.getBookISBN() == null){
     		throw new InvalidParameterException();
     	}
     }
