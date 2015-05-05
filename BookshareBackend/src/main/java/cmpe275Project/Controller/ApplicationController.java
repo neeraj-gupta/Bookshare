@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cmpe275Project.DAO.*;
-import cmpe275Project.Model.Book;
-import cmpe275Project.Model.Student;
+import cmpe275Project.Model.*;
 import cmpe275Project.config.SpringMongoConfig;
 
 @RestController
@@ -61,6 +60,23 @@ public class ApplicationController {
 			return student;
     }
     
+    // Update Student Info
+    @RequestMapping( method = RequestMethod.POST, value = "/editStudent")
+    public @ResponseBody Student updateStudent(@RequestParam(value = "firstname", required = true) String firstname,
+    		@RequestParam(value = "lastname", required = true) String lastname,
+    		@RequestParam(value = "email", required = true) String email,
+    		@RequestParam(value = "phone", required = false) String phone,
+    		@RequestParam(value = "university", required = false) String university) {
+
+    		Student student = new Student(firstname,lastname,email,phone,university);
+			checkValidStudent(student);
+		    
+			// Call StudentDao Class method to create Student.
+			studentdao.updateStudent(student, student_id);
+			System.out.println("1. Student Data Updated : " + student);
+			return student;
+    }
+    
     // Create Book
     @RequestMapping( method = RequestMethod.POST, value = "/createbook")
     public @ResponseBody Book createBook(@RequestParam(value = "title", required = true) String title,
@@ -102,14 +118,12 @@ public class ApplicationController {
     }
     
     // Search for a Book.
-    @RequestMapping( method = RequestMethod.GET, value = "/searchbook")
-    public @ResponseBody void searchBook(@PathVariable(value = "id")String id, @RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    			
-			System.out.println("1. Search for a book : ");
+    @RequestMapping( method = RequestMethod.GET, value = "/searchbook/{key}")
+    public @ResponseBody List<Book> searchBook(@PathVariable(value = "key")String key) {
+    		
+    		List<Book> books = bookdao.searchBook(key);
+			System.out.println("1. Search for a book : " + books);
+			return books;
     }
     
     // Delete a Book.
@@ -124,7 +138,7 @@ public class ApplicationController {
 		return book;
     }
         
- // Buy a Book. --- >>> Merge Transaction
+ 	// Buy a Book. --- >>> Merge Transaction
  	@RequestMapping(method = RequestMethod.POST, value = "/buybook")
  	public @ResponseBody String buyBook(
  			@PathVariable(value = "id") int id)
@@ -136,12 +150,9 @@ public class ApplicationController {
  		if (!(rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("sold") || rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("rented"))) {
 
  			// Change status in DB
- 			if ((rentOrBuyDao.changeBookStatus(id, "Sold").equalsIgnoreCase("success"))) 
- 			{
+ 			if ((rentOrBuyDao.changeBookStatus(id, "Sold").equalsIgnoreCase("success"))) {
  				System.out.println("Book with id " + id + " bought");
- 			} 
- 			else 
- 			{
+ 			} else {
  				System.out.println("Book buying failed, could not update");
  			}
  		} else {
@@ -161,11 +172,9 @@ public class ApplicationController {
  		if (!(rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("Sold") || rentOrBuyDao.getBookStatus(id).equalsIgnoreCase("Rented"))) {
 
  			// Change status in DB
- 			if ((rentOrBuyDao.changeBookStatus(id, "Rented").equalsIgnoreCase("success"))) 
- 			{
+ 			if ((rentOrBuyDao.changeBookStatus(id, "Rented").equalsIgnoreCase("success"))) {
  				System.out.println("Book with id " + id + " rented for " + duration + " days");
- 			} 
- 			else {
+ 			} else {
  				System.out.println("Book buying failed, could not update");
  			}
  		} else {
@@ -240,9 +249,7 @@ public class ApplicationController {
 	private void checkValidStudent(Student student) {
 		// TODO Auto-generated method stub
 		if(student.getFirstName() == null || student.getLastName() == null || student.getEmail() == null || student.getUniversity() == null){
-    		throw new InvalidParameterException();
-    	}
+	    		throw new InvalidParameterException();
+	    	}
 	}
-	
-	
 }
