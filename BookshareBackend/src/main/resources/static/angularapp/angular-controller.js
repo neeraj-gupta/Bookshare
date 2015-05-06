@@ -1,26 +1,16 @@
 angular.module("BookShare", ['ui.router'])
-	
 	.controller("appHome", ["$rootScope", "$scope", "$location", "student", "mapper", "$stateParams", appDashboard])
-
 	.controller("loginController", ["$rootScope", "$scope", "$location","student", LoginStudent])
-	
 	.controller("signupController", ["$scope", SignupStudent])
-
-	.controller("errorController", ["$rootScope", "$scope", "student", handleError])
-	
-	.controller("dataController", ["$rootScope", "$scope", apiCall])
 	
 	.factory('student', ['$state', '$http', studentFactory])
 	.factory('mapper', ['$state', '$http', mapperFactory])
 	
 	.config(['$stateProvider', '$urlRouterProvider', appConfigHandler]);
-	
-	
-
 
 function appConfigHandler($stateProvider, $urlRouterProvider){
 	$stateProvider
-    .state('login', {
+    	.state('login', {
 		url : '/login',
 		templateUrl : '/templates/login.html',
 		controller : 'loginController'
@@ -30,11 +20,6 @@ function appConfigHandler($stateProvider, $urlRouterProvider){
 		templateUrl : '/templates/register.html',
 		controller : 'signupController'
 	})
-	.state('error',{
-		url: '/login',
-		templateUrl: '/templates/login.html',
-		controller: 'errorController'
-	})
 	.state('home', {
 		url : '/home',
 		templateUrl : '/templates/dashboard.html',
@@ -43,22 +28,22 @@ function appConfigHandler($stateProvider, $urlRouterProvider){
 	.state('home.profile', {
 		url: '/home/profile',
 		templateUrl: 'templates/partials/profile.html',
-		controller: 'dataController'
+		controller: 'appHome'
 	})
 	.state('home.addBook', {
 		url: '/home/addBook',
 		templateUrl: 'templates/partials/addBook.html',
-		controller: 'dataController'
+		controller: 'appHome'
 	})
 	.state('home.listBook', {
 		url: '/home/listBook',
 		templateUrl: 'templates/partials/listBooks.html',
-		controller: 'dataController'
+		controller: 'appHome'
 	})
 	.state('home.history', {
 		url: '/home/history',
 		templateUrl: 'templates/partials/history.html',
-		controller: 'dataController'
+		controller: 'appHome'
 	});
     
 	$urlRouterProvider.otherwise('/login');
@@ -67,7 +52,7 @@ function appConfigHandler($stateProvider, $urlRouterProvider){
 //student factory callback method
 function studentFactory($state, $http){
 	var userObj = {
-			user : []
+		user : []
 	};
 	
 	function LoadSignup(){
@@ -75,20 +60,15 @@ function studentFactory($state, $http){
 	}
 
 	function Login(student){
-	//userObj.Login = function(student){	
 		return $http.post('/login', student)
 		.success(function(response){
-			console.log("Logging user in " + JSON.stringify(response));
+			console.log("Logging user in " + JSON.stringify(student));
 			angular.copy(response, userObj);
+			console.log("User logged in " + JSON.stringify(response.firstName));
 			$state.go('home');
 		})
 		.error(function(response, status){
-          		console.log("Login POST error: " + JSON.stringify(response) + " status " + status);
-			if(status == 400)
-			{
-				angular.copy({'error':'LoginError'}, userObj);
-				$state.go('error');
-			}		
+			console.log("Login POST error: " + response + " status " + status);
 		});
 	}
 	
@@ -102,26 +82,47 @@ function studentFactory($state, $http){
 //mapper factory callback method
 function mapperFactory($state, $http){
 	var mapperObj = {
-			mapper : []
+		mapper : []
 	};
 	
 	function LoadProfile(){
 		$state.go('home.profile');
 	}
 	
-	function ListBook(student){
-		return $http.get('/listallbooks', student)
+	function ListBook(studentEmail){
+		return $http.get('/listUserbooks/' + studentEmail)
 		.success(function(response){
+			console.log("Logged User Books : " + JSON.stringify(response));
+			//angular.copy(response[0], mapperObj);
+			if(mapperObj.mapper != null || mapperObj.mapper != undefined){
+				mapperObj.mapper = [];
+			}
+			for(var i=0; i<response.length; i++){
+				mapperObj.mapper.push(response[i]);
+			}
 			
-			console.log("Logging user in " + JSON.stringify(student));
-			angular.copy(response, userObj);
-			console.log("User logged in " + JSON.stringify(response.firstName));
-			$state.go('home');
+			$state.go('home.listBook');
 		})
 		.error(function(response, status){
-            
 			console.log("Login POST error: " + response + " status " + status);
-
+		});
+	}
+	
+	function SearchBook(keyval){
+		return $http.get('/searchbook/' + keyval)
+		.success(function(response){
+			console.log("Logged user search : " + JSON.stringify(response));
+			if(mapperObj.mapper != null || mapperObj.mapper != undefined){
+				mapperObj.mapper = [];
+			}
+			for(var i=0; i<response.length; i++){
+				mapperObj.mapper.push(response[i]);
+			}
+			console.log("User logged in " + JSON.stringify(response.firstName));
+			$state.go('home.listBook');
+		})
+		.error(function(response, status){
+			console.log("Login POST error: " + response + " status " + status);
 		});
 	}
 	
@@ -134,10 +135,12 @@ function mapperFactory($state, $http){
 	}
 	
 	return {
+		mapperObj : mapperObj,
 		LoadProfile : LoadProfile,
 		History : History,
 		ListBook : ListBook,
-		AddBook : AddBook
+		AddBook : AddBook,
+		SearchBook : SearchBook
 	};
 }
 
@@ -172,17 +175,13 @@ function appDashboard($rootScope, $scope, $location, student, mapper, $statePara
 		$location.path("#/login");
 	}
 	
-	if(student.userObj != null || student.userObj != undefined){ 
-		$scope.student = student.userObj.firstName; 
-	}
-
-	
-	console.log("Stateparams received " + (student.userObj.firstName));
 	$scope.student = student.userObj.firstName;
+	$scope.booksList = mapper.mapperObj.mapper;
+		
+	console.log("Book scope :" + JSON.stringify(mapper.mapperObj) +  " " + JSON.stringify($scope.booksList.mapper));
 	
 	$scope.logout = function(){
 		$rootScope.isAuthenticated = false;
-		student.userObj = null;
 		$location.path("#/login");
 	}
 	
@@ -199,10 +198,13 @@ function appDashboard($rootScope, $scope, $location, student, mapper, $statePara
 	}
 	
 	$scope.myBooks = function(){
-		mapperService.ListBook();
+		console.log("My Books : " + student.userObj.email);
+		mapperService.ListBook(student.userObj.email);
 	}
-}
-
-function apiCall($rootScope, $scope){
 	
+	$scope.searchBook = function(){
+		console.log("Search Books : " + student.userObj.email);
+		mapperService.SearchBook($scope.keyval);
+		$scope.keyval = "";
+	}
 }
