@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import cmpe275Project.DAO.BookBidsDao;
 import cmpe275Project.DAO.BookBidsDaoImpl;
@@ -29,16 +30,14 @@ public class BiddingController {
 	
 	// Bid for a Book.
     @RequestMapping( method = RequestMethod.POST, value = "/bidbook")
-    public @ResponseBody String bidBook(@RequestBody BookBids bookBids)
-    		{
+    public @ResponseBody String bidBook(@RequestBody BookBids bookBids){
     			
-			String message = "";
+			String message = "Success";
 			
 			if(this.checkValidBid(bookBids))
 			{
 				BookBids bidsObj = new BookBids(student_id, bookBids.getBookId(), bookBids.getBookTitle(), bookBids.getBidPrice(), bookBids.getBasePrice());
 				bookBidsDao.addBid(bidsObj);
-				message = "Bid successful!";
 			}
 			else
 			{
@@ -50,7 +49,7 @@ public class BiddingController {
     }
     
     //Show all bids for a book
-    @RequestMapping( method = RequestMethod.GET, value = "/listallbids/{id}") //Check URL with team
+    @RequestMapping( method = RequestMethod.GET, value = "/listallbids/{id}") //Check URL with team. Book id will be sent 
     public List<BookBids> listBids(@PathVariable(value = "id")Integer id) {
 			
 			//checkValidBook(title, author, isbn, price);
