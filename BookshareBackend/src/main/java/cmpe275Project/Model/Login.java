@@ -9,6 +9,18 @@ public class Login {
 	private String password;
 	private String lastLogin;
 	
+	//dummy constructor, dnt remove it!
+	public Login()
+	{
+		
+	}
+	
+	public Login(String email, String password)
+	{
+		this.email = email;
+		this.password = password;
+	}
+	
 	public String getStudentId() {
 		return studentId;
 	}
