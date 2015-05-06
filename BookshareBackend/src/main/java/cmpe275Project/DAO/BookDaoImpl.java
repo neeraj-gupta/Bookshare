@@ -114,19 +114,19 @@ public class BookDaoImpl implements BookDao {
 			return book3;
 		}
 		return null;
-		
 	}
 
 	@Override
-	public void bidBook(Integer b_id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Book> listAllBooks(int id) {
-		Query query = new Query(Criteria.where("ownerId").is(id));
+	public List<Book> listUserBooks(String id) {
+		Query query = new Query(Criteria.where("ownerEmail").is(id));
 		List<Book> book = mongoOps.find(query, Book.class, Book_COLLECTION);
+		return book;
+	}
+	
+	@Override
+	public List<Book> listAllBooks() {
+		//Query query = new Query(Criteria.where("ownerId").is(id));
+		List<Book> book = mongoOps.findAll( Book.class, Book_COLLECTION);
 		return book;
 	}
 }
