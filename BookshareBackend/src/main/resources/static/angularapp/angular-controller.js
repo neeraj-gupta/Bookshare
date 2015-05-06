@@ -5,6 +5,8 @@ angular.module("BookShare", ['ui.router'])
 	.controller("loginController", ["$rootScope", "$scope", "$location","student", LoginStudent])
 	
 	.controller("signupController", ["$scope", SignupStudent])
+
+	.controller("errorController", ["$rootScope", "$scope", "student", handleError])
 	
 	.controller("dataController", ["$rootScope", "$scope", apiCall])
 	
@@ -27,6 +29,11 @@ function appConfigHandler($stateProvider, $urlRouterProvider){
 		url : '/register',
 		templateUrl : '/templates/register.html',
 		controller : 'signupController'
+	})
+	.state('error',{
+		url: '/login',
+		templateUrl: '/templates/login.html',
+		controller: 'errorController'
 	})
 	.state('home', {
 		url : '/home',
@@ -71,16 +78,17 @@ function studentFactory($state, $http){
 	//userObj.Login = function(student){	
 		return $http.post('/login', student)
 		.success(function(response){
-			
-			console.log("Logging user in " + JSON.stringify(student));
+			console.log("Logging user in " + JSON.stringify(response));
 			angular.copy(response, userObj);
-			console.log("User logged in " + JSON.stringify(response.firstName));
 			$state.go('home');
 		})
 		.error(function(response, status){
-            
-			console.log("Login POST error: " + response + " status " + status);
-
+          		console.log("Login POST error: " + JSON.stringify(response) + " status " + status);
+			if(status == 400)
+			{
+				angular.copy({'error':'LoginError'}, userObj);
+				$state.go('error');
+			}		
 		});
 	}
 	
@@ -164,11 +172,17 @@ function appDashboard($rootScope, $scope, $location, student, mapper, $statePara
 		$location.path("#/login");
 	}
 	
+	if(student.userObj != null || student.userObj != undefined){ 
+		$scope.student = student.userObj.firstName; 
+	}
+
+	
 	console.log("Stateparams received " + (student.userObj.firstName));
 	$scope.student = student.userObj.firstName;
 	
 	$scope.logout = function(){
 		$rootScope.isAuthenticated = false;
+		student.userObj = null;
 		$location.path("#/login");
 	}
 	
