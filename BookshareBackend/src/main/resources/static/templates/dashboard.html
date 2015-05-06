@@ -1,0 +1,75 @@
+<!-- top bar -->
+<div class="row">
+    <div class="codrops-top">
+        <span class="left">
+            <strong> Book Share </strong>
+        </span>
+        <span class="right">
+            <a href="#">
+                <strong>Book Share for students</strong>
+            </a>
+        </span>
+        <div class="clr"></div>
+    </div>
+    <!-- top bar -->
+
+    <!-- top bar -->
+    <div class="codrops-top">
+        <span class="left">
+            <strong>Welcome, {{User}} </strong>
+        </span>
+        <span class="right">
+            <a href="#">
+                <strong>Logout</strong>
+            </a>
+        </span>
+        <div class="clr"></div>
+    </div>
+    <!-- top bar -->
+</div>
+
+<!-- row start -->
+<div class="row">    
+    <div class="col-md-3">
+        <div id="wrapper">
+            <div id="home" class="animate form">
+                <h1>DashBoard</h1>
+                <p>
+                    <input type="button" value="Profile"/>
+                    <input type="button" value="History"/>
+                    <input type="button" value="Add Book"/>
+                    <input type="button" value="My Books"/>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <!-- row start -->
+        <div class="row">
+            <div id="wrapper">
+                <div id="search" class="animate form">
+                    <form  action="" autocomplete="on"> 
+                        <label for="search" class="youmail" > Search for a book</label>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input type="search" placeholder="eg. Title, Author, ISBN etc." />    
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" value="Search" />    
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- row end -->
+
+        <!-- row start -->
+        <div class="row" ui-view>
+
+        </div>
+    </div>
+</div>
+<!-- row end -->
+<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
