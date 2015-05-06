@@ -1,13 +1,29 @@
 package cmpe275Project.Model;
 
+import javax.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class Student {
+	
 	private static Integer count = 1;
+	@JsonView(Integer.class)
 	private Integer studentId;
+	@JsonView(String.class)
 	private String firstName;
+	@JsonView(String.class)
 	private String lastName;
+	@Id
+	@JsonView(String.class)
 	private String email;
+	@JsonView(String.class)
+	@NotNull
+	private String password;
+	@JsonView(String.class)
 	private String phone;
+	@JsonView(String.class)
 	private String university;
+	
 	
 	Student(){
 	}
