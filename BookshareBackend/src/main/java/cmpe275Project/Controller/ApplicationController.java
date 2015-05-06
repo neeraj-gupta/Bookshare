@@ -78,74 +78,7 @@ public class ApplicationController {
 			return student;
     }
     
-        
-    // Buy a Book.
-    @RequestMapping( method = RequestMethod.GET, value = "/buybook/{id}")
-    public @ResponseBody String buyBook(@PathVariable(value = "id")Integer id, @RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    			
-			Book book = new Book(student_id, title, author, isbn, desc, price);
-			
-			System.out.println("1. Book required Posted : ");
-			return "Success";
-    }
-    
-    // Bid for a Book.
-    @RequestMapping( method = RequestMethod.GET, value = "/bidbook/{id}")
-    public @ResponseBody Book bidBook(@RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    			
-			Book book = new Book(student_id, title, author, isbn, desc, price);
-			
-			System.out.println("1. Book Bid Successfull Posted : ");
-			return book;
-    }
-    
-    // Accept offer for a Book.
-    @RequestMapping( method = RequestMethod.GET, value = "/acceptoffer/{id}")
-    public @ResponseBody Book acceptOffer(@PathVariable(value="id")String id, @RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-			
-			//checkValidBook(title, author, isbn, price);
-			Book book = new Book(student_id, title, author, isbn, desc, price);
-		    
-			System.out.println("1. Book Offer Accepted ");
-			return book;
-    }
-    
-    // Give Feedback for a Book.
-    @RequestMapping( method = RequestMethod.POST, value = "/feedback")
-    public @ResponseBody void feedback(@RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    			
-			System.out.println("Posted Feed Back: ");
-    }
-    
-    // Give rating to a buyer/seller.
-    @RequestMapping( method = RequestMethod.POST, value = "/rate")
-    public @ResponseBody String ratePeople(@RequestParam(value = "title", required = true) String title,
-    		@RequestParam(value = "author", required = true) String author,
-    		@RequestParam(value = "isbn", required = true) String isbn,
-    		@RequestParam(value = "desc", required = false) String desc,
-    		@RequestParam(value = "price", required = false) String price) {
-    			
-			System.out.println("Give Rating : ");
-			return "Success";
-    }
-    
-    private void checkValidBook(Book book) {
+   private void checkValidBook(Book book) {
 		// TODO Auto-generated method stub
     	if(book.getBookTitle() == null || book.getBookAuthor() == null || book.getBookISBN() == null){
     		throw new InvalidParameterException();
