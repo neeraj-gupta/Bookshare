@@ -22,7 +22,7 @@ public class FeedbackController {
 	
 	// Give Feedback for a Book.
 		@RequestMapping(method = RequestMethod.POST, value = "/givefeedback")
-		public @ResponseBody String feedback(@RequestBody Feedback feedback) {
+		public @ResponseBody Feedback feedback(@RequestBody Feedback feedback) {
 
 			this.checkValidFeedback(feedback);
 			Feedback feedbackObj = new Feedback(student_id, feedback.getSellerId(),feedback.getRating(), feedback.getFeedbackDesc());
@@ -31,7 +31,7 @@ public class FeedbackController {
 			} else {
 				System.out.println("Feedback couldnt be posted");
 			}
-			return "" + feedbackObj;
+			return feedbackObj;
 		}
 		
 		private void checkValidFeedback(Feedback feedback) {
