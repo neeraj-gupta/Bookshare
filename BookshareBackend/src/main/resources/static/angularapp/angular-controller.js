@@ -2,6 +2,7 @@ angular.module("BookShare", ['ui.router'])
 	.controller("appHome", ["$rootScope", "$scope", "$location", "student", "mapper", "$stateParams", appDashboard])
 	.controller("loginController", ["$rootScope", "$scope", "$location","student", LoginStudent])
 	.controller("signupController", ["$scope", SignupStudent])
+	.controller("errorController", ["$rootScope", "$scope", "student", handleError])
 	
 	.factory('student', ['$state', '$http', studentFactory])
 	.factory('mapper', ['$state', '$http', mapperFactory])
@@ -20,6 +21,11 @@ function appConfigHandler($stateProvider, $urlRouterProvider){
 		templateUrl : '/templates/register.html',
 		controller : 'signupController'
 	})
+	.state('error',{
+		url: '/login',
+		templateUrl: '/templates/login.html',
+		controller: 'errorController'
+	});
 	.state('home', {
 		url : '/home',
 		templateUrl : '/templates/dashboard.html',
@@ -62,7 +68,6 @@ function studentFactory($state, $http){
 	function Login(student){
 		return $http.post('/login', student)
 		.success(function(response){
-			console.log("Logging user in " + JSON.stringify(student));
 			angular.copy(response, userObj);
 			console.log("User logged in " + JSON.stringify(response.firstName));
 			$state.go('home');
@@ -78,6 +83,17 @@ function studentFactory($state, $http){
 		LoadSignup : LoadSignup
 	};
 }
+
+function handleError($rootScope, $scope, student){
+	
+	console.log("Errorcontroller " + student.userObj.error);
+	if(student.userObj.error == "LoginError")
+	{
+		$scope.errorMsg = "Login failed. Invalid Email/password combination.";
+		$rootScope.authenticated = false;
+	}
+}
+
 
 //mapper factory callback method
 function mapperFactory($state, $http){
@@ -182,6 +198,7 @@ function appDashboard($rootScope, $scope, $location, student, mapper, $statePara
 	
 	$scope.logout = function(){
 		$rootScope.isAuthenticated = false;
+		student.userObj = null;
 		$location.path("#/login");
 	}
 	
