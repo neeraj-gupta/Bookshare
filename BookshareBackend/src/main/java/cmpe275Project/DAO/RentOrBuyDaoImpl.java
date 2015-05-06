@@ -27,7 +27,7 @@ public class RentOrBuyDaoImpl implements RentOrBuyDao {
 	public String getBookStatus(int bookId) {
 		// TODO Auto-generated method stub
 
-		Query query = new Query(Criteria.where("id").is(bookId));
+		Query query = new Query(Criteria.where("bookId").is(bookId));
 		RentOrBuy rentOrBuy = mongoOps.findOne(query, RentOrBuy.class);
 		String status = "";
 		if (rentOrBuy == null) {
@@ -45,12 +45,12 @@ public class RentOrBuyDaoImpl implements RentOrBuyDao {
 		
 		//update query
 		
-		Query query = new Query(Criteria.where("id").is(id));
+		Query query = new Query(Criteria.where("bookId").is(id));
 		RentOrBuy rentOrBuy = mongoOps.findOne(query, RentOrBuy.class);
 		Update update = new Update();
 		if(rentOrBuy.getStatus()!= null)
 		{
-		update.set(rentOrBuy.getStatus(), status);
+		update.set("status", status);
 		mongoOps.findAndModify(query, update, RentOrBuy.class);
 		}
 		return "success";
