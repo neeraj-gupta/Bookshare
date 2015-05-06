@@ -75,4 +75,6 @@ public class RentOrBuy {
 	public void setType(String type) {
 		this.type = type;
 	}
+
 }
+
