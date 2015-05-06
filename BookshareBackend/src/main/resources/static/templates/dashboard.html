@@ -49,18 +49,16 @@
         <!-- row start -->
         <div class="row">
             <div id="wrapper">
-                <div id="search" class="animate form">
-                    <form  action="searchBook()" autocomplete="on"> 
-                        <label for="search" class="youmail" > Search for a book</label>
-                        <div class="row">
-                            <div class="col-md-10">
-                                <input type="search" placeholder="eg. Title, Author, ISBN etc." />    
-                            </div>
-                            <div class="col-md-2">
-                                <input type="submit" value="Search" />    
-                            </div>
+                <div id="search" class="animate">
+                    <label for="search" class="youmail" > Search for a book</label>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="search" ng-model="keyval" name="search" placeholder="eg. Title, Author, ISBN etc." />    
                         </div>
-                    </form>
+                        <div class="col-md-2">
+                            <input type="button" ng-click="searchBook()" value="Search" />    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
