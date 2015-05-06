@@ -15,7 +15,7 @@ public class Transaction {
 	String transactionDate;
 	double sellingPrice;
 	
-	Transaction(int bookId, int buyer, int seller, String transactionType, double sellingPrice){
+	public Transaction(int bookId, int buyer, int seller, String transactionType, double sellingPrice){
 		super();
 		this.transactionId = counter++;
 		this.bookId = bookId;
