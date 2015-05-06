@@ -38,6 +38,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     compile("com.jayway.jsonpath:json-path:0.9.1")
     compile("org.json:json:20090211")
+    compile("com.googlecode.json-simple:json-simple:1.1")
     compile ("org.springframework.data:spring-data-mongodb:1.6.0.RELEASE")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
 }
