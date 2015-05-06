@@ -5,8 +5,6 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-
-import cmpe275Project.Model.Book;
 import cmpe275Project.Model.Student;
 import cmpe275Project.MyExceptions.Exceptions;
 import cmpe275Project.config.SpringMongoConfig;
@@ -57,7 +55,14 @@ public class StudentDaoImpl implements StudentDao{
 		Student res = mongoOps.findAndModify(query, update, Student.class);
 		return res;
 	}
+	
+	@Override
+	public Student getStudentDetails(String email) {
 
+		Query query = new Query(Criteria.where("email").is(email));
+		Student loggedinStudent = mongoOps.findOne(query, Student.class, Student_COLLECTION);
+		return loggedinStudent;
+	}
 	
 	// Helper Validation Functions
 	private boolean isExistingStudent(int studentId) {
