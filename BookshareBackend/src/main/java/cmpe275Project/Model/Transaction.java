@@ -6,7 +6,7 @@ import cmpe275Project.Controller.DateParser;
 
 @Document(collection = "transactions")
 public class Transaction {
-	private static int counter = 0;
+	private static int counter = 1;
 	int transactionId;
 	int bookId;
 	int buyer;
