@@ -3,9 +3,11 @@ package cmpe275Project.Controller;
 import java.security.InvalidParameterException;
 import java.util.*;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
+import javax.validation.Valid;
+import org.json.simple.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,18 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mongodb.DBCollection;
-
 import cmpe275Project.DAO.*;
-import cmpe275Project.Model.Book;
-import cmpe275Project.Model.PostBook;
-import cmpe275Project.Model.Student;
-import cmpe275Project.config.SpringMongoConfig;
+import cmpe275Project.Model.*;
+import cmpe275Project.MyExceptions.Exceptions;
+import cmpe275Project.MyExceptions.Exceptions.UserRegistrationFailedExeption;
 
 @RestController
 @RequestMapping("/")
 public class ApplicationController {
 	Integer student_id = 1;
+	JSONObj jsonObj = new JSONObj();
+	private LoginDao loginDao = new LoginDaoImpl(); 
 	private StudentDao studentdao = new StudentDaoImpl();
 	private BookDao bookdao = new BookDaoImpl();
 	
@@ -47,18 +48,45 @@ public class ApplicationController {
 	    return model;
     }
     
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<JSONObject> login(@RequestBody Login login){
+    	
+    	Login studentLogin = new Login(login.getEmail(), login.getPassword()); 
+    	if(checkValidLogin(studentLogin.getEmail(), studentLogin.getPassword()))
+    	{
+    		String email = loginDao.loginStudent(studentLogin);
+    		Student student = studentdao.getStudentDetails(email);
+    		
+    		return new ResponseEntity<JSONObject>(jsonObj.getStudentJSON(student), HttpStatus.ACCEPTED);
+		
+    	}
+    	return null;
+    }
     
     // Register Student
     @RequestMapping( method = RequestMethod.POST, value = "/student")
-    public @ResponseBody Student createStudent(@RequestBody Student student) {
+    public @ResponseBody Student createStudent(@Valid @RequestBody Student student, BindingResult result) {
 
-    		Student studentLocal = new Student(student.getFirstName(),student.getLastName(),student.getEmail(),student.getPhone(),student.getUniversity());
-			checkValidStudent(studentLocal);
-		    
-			// Call StudentDao Class method to create Student.
-			studentdao.createStudent(studentLocal);
-			System.out.println("1. Student added : " + studentLocal);
-			return studentLocal;
+    	if(result.hasErrors())
+    	{
+    		throw new Exceptions.InvalidRequestBodyException();
+    	}
+    		Login regStudent = new Login(student.getEmail(), student.getPassword());
+    		if(loginDao.registerNewStudent(regStudent) == 1)
+    		{
+    			Student studentLocal = new Student(student.getFirstName(),student.getLastName(),student.getEmail(),student.getPhone(),student.getUniversity());
+    			checkValidStudent(studentLocal);
+    		    
+    			// Call StudentDao Class method to create Student.
+    			studentdao.createStudent(studentLocal);
+    			System.out.println("1. Student added : " + studentLocal);
+    			return studentLocal;
+    		}
+    		else
+    		{
+    			throw new UserRegistrationFailedExeption();
+    		}
     }
     
  // Update Student Info
@@ -78,7 +106,7 @@ public class ApplicationController {
 			return student;
     }
     
-    
+    //HELPER METHODS
     private void checkValidBook(Book book) {
 		// TODO Auto-generated method stub
     	if(book.getBookTitle() == null || book.getBookAuthor() == null || book.getBookISBN() == null){
@@ -99,4 +127,15 @@ public class ApplicationController {
     		throw new InvalidParameterException();
     	}
 	}
+	
+	
+    public boolean checkValidLogin(String email, String password)
+    {
+    	if(email != null && password != null)
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    
 }
