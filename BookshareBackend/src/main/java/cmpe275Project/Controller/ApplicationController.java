@@ -78,7 +78,8 @@ public class ApplicationController {
 			return student;
     }
     
-   private void checkValidBook(Book book) {
+    
+    private void checkValidBook(Book book) {
 		// TODO Auto-generated method stub
     	if(book.getBookTitle() == null || book.getBookAuthor() == null || book.getBookISBN() == null){
     		throw new InvalidParameterException();
