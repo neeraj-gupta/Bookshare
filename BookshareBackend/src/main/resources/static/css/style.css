@@ -306,13 +306,7 @@ p.change_link{
 	-moz-border-radius: 5px;
 		 border-radius: 5px;
 }
-#register{	
-	z-index: 21;
-	opacity: 0;
-}
-#login{
-	z-index: 22;
-}
+
 #toregister:target ~ #wrapper #register,
 #tologin:target ~ #wrapper #login{
 	z-index: 22;
@@ -373,7 +367,7 @@ p.change_link{
 	color: #066A75;
 }
 .lt8 #register{	
-	display: none;
+	display: block;
 }
 .lt8 p.change_link,
 .ie9 p.change_link{
