@@ -14,6 +14,10 @@ public class BookBids {
 	private float bidPrice;
 	private float basePrice;
 	
+	public BookBids(){
+		
+	}
+	
 	public BookBids(Integer bidderId, Integer bookId, String bookTitle, float bidPrice, float basePrice){
 		super();
 		bidId = counter++;
