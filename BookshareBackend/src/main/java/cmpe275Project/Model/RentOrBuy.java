@@ -67,4 +67,12 @@ public class RentOrBuy {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }
