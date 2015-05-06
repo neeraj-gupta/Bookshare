@@ -1,12 +1,15 @@
 angular.module("BookShare", ['ui.router'])
 	
-	.controller("appHome", ["$rootScope", "$scope", "$location", "student", "$stateParams", appDashboard])
+	.controller("appHome", ["$rootScope", "$scope", "$location", "student", "mapper", "$stateParams", appDashboard])
 
 	.controller("loginController", ["$rootScope", "$scope", "$location","student", LoginStudent])
 	
 	.controller("signupController", ["$scope", SignupStudent])
 	
+	.controller("dataController", ["$rootScope", "$scope", apiCall])
+	
 	.factory('student', ['$state', '$http', studentFactory])
+	.factory('mapper', ['$state', '$http', mapperFactory])
 	
 	.config(['$stateProvider', '$urlRouterProvider', appConfigHandler]);
 	
@@ -29,8 +32,28 @@ function appConfigHandler($stateProvider, $urlRouterProvider){
 		url : '/home',
 		templateUrl : '/templates/dashboard.html',
 		controller : 'appHome'
+	})
+	.state('home.profile', {
+		url: '/home/profile',
+		templateUrl: 'templates/partials/profile.html',
+		controller: 'dataController'
+	})
+	.state('home.addBook', {
+		url: '/home/addBook',
+		templateUrl: 'templates/partials/addBook.html',
+		controller: 'dataController'
+	})
+	.state('home.listBook', {
+		url: '/home/listBook',
+		templateUrl: 'templates/partials/listBooks.html',
+		controller: 'dataController'
+	})
+	.state('home.history', {
+		url: '/home/history',
+		templateUrl: 'templates/partials/history.html',
+		controller: 'dataController'
 	});
-	
+    
 	$urlRouterProvider.otherwise('/login');
 }
 
@@ -68,6 +91,48 @@ function studentFactory($state, $http){
 	};
 }
 
+//mapper factory callback method
+function mapperFactory($state, $http){
+	var mapperObj = {
+			mapper : []
+	};
+	
+	function LoadProfile(){
+		$state.go('home.profile');
+	}
+	
+	function ListBook(student){
+		return $http.get('/listallbooks', student)
+		.success(function(response){
+			
+			console.log("Logging user in " + JSON.stringify(student));
+			angular.copy(response, userObj);
+			console.log("User logged in " + JSON.stringify(response.firstName));
+			$state.go('home');
+		})
+		.error(function(response, status){
+            
+			console.log("Login POST error: " + response + " status " + status);
+
+		});
+	}
+	
+	function AddBook(){
+		$state.go('home.profile');
+	}
+	
+	function History(){
+		$state.go('home.profile');
+	}
+	
+	return {
+		LoadProfile : LoadProfile,
+		History : History,
+		ListBook : ListBook,
+		AddBook : AddBook
+	};
+}
+
 //register callback method
 function SignupStudent($scope){
 	
@@ -92,8 +157,9 @@ function LoginStudent($rootScope, $scope, $location, studentservice){
 }
 
 //appHome
-function appDashboard($rootScope, $scope, $location, student, $stateParams){
+function appDashboard($rootScope, $scope, $location, student, mapper, $stateParams){
 	
+	var mapperService = mapper;
 	if(!$rootScope.isAuthenticated){
 		$location.path("#/login");
 	}
@@ -105,4 +171,24 @@ function appDashboard($rootScope, $scope, $location, student, $stateParams){
 		$rootScope.isAuthenticated = false;
 		$location.path("#/login");
 	}
+	
+	$scope.profile = function(){
+		mapperService.LoadProfile();
+	}
+	
+	$scope.history = function(){
+		mapperService.History();
+	}
+	
+	$scope.addBook = function(){
+		mapperService.AddBook();
+	}
+	
+	$scope.myBooks = function(){
+		mapperService.ListBook();
+	}
+}
+
+function apiCall($rootScope, $scope){
+	
 }

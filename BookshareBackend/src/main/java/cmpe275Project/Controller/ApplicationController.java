@@ -30,11 +30,12 @@ public class ApplicationController {
 	private StudentDao studentdao = new StudentDaoImpl();
 	private BookDao bookdao = new BookDaoImpl();
 	
+	/*
 	@RequestMapping( method = RequestMethod.GET, value = "/")
     public @ResponseBody String getHome() {    	
     	return "index";
     }
-	
+	*/
 	@RequestMapping( method = RequestMethod.GET, value = "/error")
     public @ResponseBody String getError() {    	
     	return "login";

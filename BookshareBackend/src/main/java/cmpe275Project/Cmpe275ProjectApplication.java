@@ -4,12 +4,11 @@ package cmpe275Project;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 
 @SpringBootApplication
 //enable redis http session store for the backend app also
-@EnableRedisHttpSession
+//@EnableRedisHttpSession
 public class Cmpe275ProjectApplication {
 
     public static void main(String[] args) {

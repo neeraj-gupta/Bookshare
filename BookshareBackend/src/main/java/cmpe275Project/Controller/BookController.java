@@ -3,24 +3,19 @@ package cmpe275Project.Controller;
 import java.security.InvalidParameterException;
 import java.util.*;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
+import org.json.simple.JSONArray;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.mongodb.DBCollection;
 
 import cmpe275Project.DAO.*;
 import cmpe275Project.Model.Book;
 import cmpe275Project.Model.PostBook;
-import cmpe275Project.Model.Student;
-import cmpe275Project.config.SpringMongoConfig;
 
 @RestController
 @RequestMapping("/")
@@ -54,13 +49,19 @@ public class BookController {
 
     // List of all available Book.
     @RequestMapping( method = RequestMethod.GET, value = "/listallbooks/{id}")
-    public List<Book> listBooks(@PathVariable(value = "id")int id) {
-    	//bookdao.listAllBooks(collection,id);
-    	List<Book> book = bookdao.listAllBooks(id);
-    	//List<Book> array = new ArrayList<Book>();
+    public ResponseEntity<JSONArray> listBooks(@PathVariable(value = "id")int id) {
+    	
+    	List<Book> books = bookdao.listAllBooks(id);
+    	JSONArray jsonArray = new JSONArray();
+    	for(Book book : books){
+    		jsonArray.add(book);
+    	}
+    	
     	System.out.println("1. All for Listing Found : ");
-    	return book;
+    	//return jsonArray;
+    	return new ResponseEntity<JSONArray>(jsonArray, HttpStatus.ACCEPTED);
     }
+    
     
     // Search for a Book.
     @RequestMapping( method = RequestMethod.GET, value = "/searchbook/{key}")
