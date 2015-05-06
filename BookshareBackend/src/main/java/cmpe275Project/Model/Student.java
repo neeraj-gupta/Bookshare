@@ -1,7 +1,9 @@
 package cmpe275Project.Model;
 
 import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
+
 import com.fasterxml.jackson.annotation.JsonView;
 
 public class Student {
@@ -87,5 +89,10 @@ public class Student {
 	
 	public void setUniversity(String university) {
 		this.university = university;
+	}
+
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return password;
 	}	
 }
