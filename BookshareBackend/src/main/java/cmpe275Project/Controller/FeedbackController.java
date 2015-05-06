@@ -22,17 +22,16 @@ public class FeedbackController {
 	
 	// Give Feedback for a Book.
 		@RequestMapping(method = RequestMethod.POST, value = "/givefeedback")
-		public @ResponseBody void feedback(@RequestBody Feedback feedback) {
+		public @ResponseBody String feedback(@RequestBody Feedback feedback) {
 
 			this.checkValidFeedback(feedback);
-			Feedback feedbackObj = new Feedback(student_id, feedback.getSellerId(),
-					feedback.getRating(), feedback.getFeedbackDesc());
+			Feedback feedbackObj = new Feedback(student_id, feedback.getSellerId(),feedback.getRating(), feedback.getFeedbackDesc());
 			if (feedbackDao.addFeedback(feedbackObj).equalsIgnoreCase("success")) {
 				System.out.println("Posted Feed Back successfully");
 			} else {
 				System.out.println("Feedback couldnt be posted");
 			}
-
+			return "" + feedbackObj;
 		}
 		
 		private void checkValidFeedback(Feedback feedback) {
