@@ -27,4 +27,27 @@ public class Exceptions extends Exception {
 
 		public BookNotFoundException(){}
 	}
+	
+		
+	@ResponseStatus(value=HttpStatus.BAD_REQUEST, reason="Invalid parameters")
+	public static class InvalidRequestBodyException extends RuntimeException
+	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public InvalidRequestBodyException(){}
+	}
+	
+	@ResponseStatus(value=HttpStatus.BAD_REQUEST, reason="Unable to register the user.")
+	public static class UserRegistrationFailedExeption extends RuntimeException
+	{
+		/** 
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public UserRegistrationFailedExeption(){}
+	}
 }
