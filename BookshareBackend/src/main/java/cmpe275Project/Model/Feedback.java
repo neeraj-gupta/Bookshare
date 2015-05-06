@@ -7,7 +7,7 @@ import cmpe275Project.Controller.DateParser;
 
 @Document(collection = "feedbacks")
 public class Feedback {
-	private static Integer counter;
+	private static Integer counter = 1;
 	@Id
 	private Integer feedbackId;
 	private Integer providerId;
@@ -15,6 +15,10 @@ public class Feedback {
 	private Integer rating;
 	private String feedbackDesc;
 	private String created_at;
+	
+	public Feedback(){
+		
+	}
 	
 	public Feedback(Integer providerId, Integer sellerId, Integer rating, String feedbackDesc){
 		super();
