@@ -18,6 +18,8 @@ import cmpe275Project.Model.BookBids;
 import cmpe275Project.Model.RentOrBuy;
 import cmpe275Project.Model.Transaction;
 
+@RestController
+@RequestMapping("/")
 public class BiddingController {
 	
 	Integer student_id = 1;
