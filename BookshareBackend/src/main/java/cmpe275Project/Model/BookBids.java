@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "bids")
 public class BookBids {
-	private static int counter;
+	private static int counter = 1;
 	@Id
 	private Integer bidId;
 	private Integer bidderId;
