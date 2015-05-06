@@ -80,7 +80,5 @@ public class BookBidsDaoImpl implements BookBidsDao {
 		return rentOrBuy;
 	}
 	
-	
-	
-	
 }
+
