@@ -36,6 +36,7 @@ public class BiddingController {
 			{
 				BookBids bidsObj = new BookBids(student_id, bookBids.getBookId(), bookBids.getBookTitle(), bookBids.getBidPrice(), bookBids.getBasePrice());
 				bookBidsDao.addBid(bidsObj);
+				message = "Bid successful!";
 			}
 			else
 			{
