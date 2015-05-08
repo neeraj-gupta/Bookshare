@@ -1,0 +1,53 @@
+ <div id="wrapper">
+                <div id="search" class="animate">
+                    <label for="search" class="youmail" > Enter Book Details </label>
+                    <div class="row">
+                        <div class="col-md-10">
+                        	<form>
+                        	<table border="1">
+                        	<tr>
+    							<td>Book Title</td>
+    							<td>Introduction to Spring!</td> 
+  							</tr>
+  							<tr>
+    							<td>Author</td>
+    							<td>Charles Zhang</td> 
+  							</tr>
+  							<tr>
+    							<td>Description</td>
+    							<td>Top selling Spring book covering all related aspects of spring framework.</td> 
+  							</tr>
+  							<tr>
+    							<td>ISBN</td>
+    							<td>669401293</td> 
+  							</tr>
+  							<tr>
+    							<td>Condition</td>
+    							<td>New</td> 
+  							</tr>
+  							<tr>
+    							<td>Selling Price</td>
+    							<td>$50</td> 
+  							</tr>
+  							<tr>
+    							<td colspan="2">
+    							<label> Existing Bids </label> <br>
+   			 						<table border="0" style="width:0%">
+  										<tr>
+    										<td>Alice</td>
+    										<td>$60</td> 
+  										</tr>
+  										<tr>
+    										<td>Eve</td>
+    										<td>$66</td> 
+									  </tr>
+									</table>
+  							</tr>
+  							</table>
+  							<lable> Enter Bid Price (USD): </label>
+    						<input type="text" ng-model="keyval" name="bidprice" placeholder="Enter Bid Price" />
+    						<input type="submit" ng-click="submitBid()" value="submitBid" />    
+                            </form>
+                        </div>
+                    </div>
+                </div>
